@@ -4,7 +4,7 @@ package com.github.kklisura.cdt.protocol.commands;
  * #%L
  * cdt-java-client
  * %%
- * Copyright (C) 2018 - 2021 Kenan Klisura
+ * Copyright (C) 2018 - 2024 Kenan Klisura
  * %%
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -27,6 +27,7 @@ import com.github.kklisura.cdt.protocol.events.css.StyleSheetChanged;
 import com.github.kklisura.cdt.protocol.events.css.StyleSheetRemoved;
 import com.github.kklisura.cdt.protocol.support.annotations.EventName;
 import com.github.kklisura.cdt.protocol.support.annotations.Experimental;
+import com.github.kklisura.cdt.protocol.support.annotations.Optional;
 import com.github.kklisura.cdt.protocol.support.annotations.ParamName;
 import com.github.kklisura.cdt.protocol.support.annotations.ReturnTypeParameter;
 import com.github.kklisura.cdt.protocol.support.annotations.Returns;
@@ -34,9 +35,13 @@ import com.github.kklisura.cdt.protocol.support.types.EventHandler;
 import com.github.kklisura.cdt.protocol.support.types.EventListener;
 import com.github.kklisura.cdt.protocol.types.css.BackgroundColors;
 import com.github.kklisura.cdt.protocol.types.css.CSSComputedStyleProperty;
+import com.github.kklisura.cdt.protocol.types.css.CSSContainerQuery;
+import com.github.kklisura.cdt.protocol.types.css.CSSLayerData;
 import com.github.kklisura.cdt.protocol.types.css.CSSMedia;
 import com.github.kklisura.cdt.protocol.types.css.CSSRule;
+import com.github.kklisura.cdt.protocol.types.css.CSSScope;
 import com.github.kklisura.cdt.protocol.types.css.CSSStyle;
+import com.github.kklisura.cdt.protocol.types.css.CSSSupports;
 import com.github.kklisura.cdt.protocol.types.css.InlineStylesForNode;
 import com.github.kklisura.cdt.protocol.types.css.MatchedStylesForNode;
 import com.github.kklisura.cdt.protocol.types.css.PlatformFontUsage;
@@ -72,6 +77,26 @@ public interface CSS {
       @ParamName("styleSheetId") String styleSheetId,
       @ParamName("ruleText") String ruleText,
       @ParamName("location") SourceRange location);
+
+  /**
+   * Inserts a new rule with the given `ruleText` in a stylesheet with given `styleSheetId`, at the
+   * position specified by `location`.
+   *
+   * @param styleSheetId The css style sheet identifier where a new rule should be inserted.
+   * @param ruleText The text of a new rule.
+   * @param location Text position of a new rule in the target style sheet.
+   * @param nodeForPropertySyntaxValidation NodeId for the DOM node in whose context custom property
+   *     declarations for registered properties should be validated. If omitted, declarations in the
+   *     new rule text can only be validated statically, which may produce incorrect results if the
+   *     declaration contains a var() for example.
+   */
+  @Returns("rule")
+  CSSRule addRule(
+      @ParamName("styleSheetId") String styleSheetId,
+      @ParamName("ruleText") String ruleText,
+      @ParamName("location") SourceRange location,
+      @Experimental @Optional @ParamName("nodeForPropertySyntaxValidation")
+          Integer nodeForPropertySyntaxValidation);
 
   /**
    * Returns all class names from specified stylesheet.
@@ -161,6 +186,32 @@ public interface CSS {
   String getStyleSheetText(@ParamName("styleSheetId") String styleSheetId);
 
   /**
+   * Returns all layers parsed by the rendering engine for the tree scope of a node. Given a DOM
+   * element identified by nodeId, getLayersForNode returns the root layer for the nearest ancestor
+   * document or shadow root. The layer root contains the full layer tree for the tree scope and
+   * their ordering.
+   *
+   * @param nodeId
+   */
+  @Experimental
+  @Returns("rootLayer")
+  CSSLayerData getLayersForNode(@ParamName("nodeId") Integer nodeId);
+
+  /**
+   * Given a CSS selector text and a style sheet ID, getLocationForSelector returns an array of
+   * locations of the CSS selector in the style sheet.
+   *
+   * @param styleSheetId
+   * @param selectorText
+   */
+  @Experimental
+  @Returns("ranges")
+  @ReturnTypeParameter(SourceRange.class)
+  List<SourceRange> getLocationForSelector(
+      @ParamName("styleSheetId") String styleSheetId,
+      @ParamName("selectorText") String selectorText);
+
+  /**
    * Starts tracking the given computed styles for updates. The specified array of properties
    * replaces the one previously specified. Pass empty array to disable tracking. Use
    * takeComputedStyleUpdates to retrieve the list of nodes that had properties modified. The
@@ -194,6 +245,19 @@ public interface CSS {
       @ParamName("value") String value);
 
   /**
+   * Modifies the property rule property name.
+   *
+   * @param styleSheetId
+   * @param range
+   * @param propertyName
+   */
+  @Returns("propertyName")
+  Value setPropertyRulePropertyName(
+      @ParamName("styleSheetId") String styleSheetId,
+      @ParamName("range") SourceRange range,
+      @ParamName("propertyName") String propertyName);
+
+  /**
    * Modifies the keyframe rule key text.
    *
    * @param styleSheetId
@@ -215,6 +279,48 @@ public interface CSS {
    */
   @Returns("media")
   CSSMedia setMediaText(
+      @ParamName("styleSheetId") String styleSheetId,
+      @ParamName("range") SourceRange range,
+      @ParamName("text") String text);
+
+  /**
+   * Modifies the expression of a container query.
+   *
+   * @param styleSheetId
+   * @param range
+   * @param text
+   */
+  @Experimental
+  @Returns("containerQuery")
+  CSSContainerQuery setContainerQueryText(
+      @ParamName("styleSheetId") String styleSheetId,
+      @ParamName("range") SourceRange range,
+      @ParamName("text") String text);
+
+  /**
+   * Modifies the expression of a supports at-rule.
+   *
+   * @param styleSheetId
+   * @param range
+   * @param text
+   */
+  @Experimental
+  @Returns("supports")
+  CSSSupports setSupportsText(
+      @ParamName("styleSheetId") String styleSheetId,
+      @ParamName("range") SourceRange range,
+      @ParamName("text") String text);
+
+  /**
+   * Modifies the expression of a scope at-rule.
+   *
+   * @param styleSheetId
+   * @param range
+   * @param text
+   */
+  @Experimental
+  @Returns("scope")
+  CSSScope setScopeText(
       @ParamName("styleSheetId") String styleSheetId,
       @ParamName("range") SourceRange range,
       @ParamName("text") String text);
@@ -251,12 +357,28 @@ public interface CSS {
   @ReturnTypeParameter(CSSStyle.class)
   List<CSSStyle> setStyleTexts(@ParamName("edits") List<StyleDeclarationEdit> edits);
 
+  /**
+   * Applies specified style edits one after another in the given order.
+   *
+   * @param edits
+   * @param nodeForPropertySyntaxValidation NodeId for the DOM node in whose context custom property
+   *     declarations for registered properties should be validated. If omitted, declarations in the
+   *     new rule text can only be validated statically, which may produce incorrect results if the
+   *     declaration contains a var() for example.
+   */
+  @Returns("styles")
+  @ReturnTypeParameter(CSSStyle.class)
+  List<CSSStyle> setStyleTexts(
+      @ParamName("edits") List<StyleDeclarationEdit> edits,
+      @Experimental @Optional @ParamName("nodeForPropertySyntaxValidation")
+          Integer nodeForPropertySyntaxValidation);
+
   /** Enables the selector recording. */
   void startRuleUsageTracking();
 
   /**
    * Stop tracking rule usage and return the list of rules that were used since last call to
-   * `takeCoverageDelta` (or since start of coverage instrumentation)
+   * `takeCoverageDelta` (or since start of coverage instrumentation).
    */
   @Returns("ruleUsage")
   @ReturnTypeParameter(RuleUsage.class)
@@ -264,7 +386,7 @@ public interface CSS {
 
   /**
    * Obtain list of rules that became used since last call to this method (or since start of
-   * coverage instrumentation)
+   * coverage instrumentation).
    */
   TakeCoverageDelta takeCoverageDelta();
 
@@ -278,7 +400,7 @@ public interface CSS {
 
   /**
    * Fires whenever a web font is updated. A non-empty font parameter indicates a successfully
-   * loaded web font
+   * loaded web font.
    */
   @EventName("fontsUpdated")
   EventListener onFontsUpdated(EventHandler<FontsUpdated> eventListener);

@@ -4,7 +4,7 @@ package com.github.kklisura.cdt.examples;
  * #%L
  * cdt-examples
  * %%
- * Copyright (C) 2018 - 2021 Kenan Klisura
+ * Copyright (C) 2018 - 2024 Kenan Klisura
  * %%
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -87,23 +87,7 @@ public class PrintingPageToPdf {
               outputFilename,
               devToolsService
                   .getPage()
-                  .printToPDF(
-                      landscape,
-                      displayHeaderFooter,
-                      printBackground,
-                      scale,
-                      paperWidth,
-                      paperHeight,
-                      marginTop,
-                      marginBottom,
-                      marginLeft,
-                      marginRight,
-                      pageRanges,
-                      ignoreInvalidPageRanges,
-                      headerTemplate,
-                      footerTemplate,
-                      preferCSSPageSize,
-                      mode));
+                  .printToPDF());
 
           System.out.println("Done!");
           devToolsService.close();

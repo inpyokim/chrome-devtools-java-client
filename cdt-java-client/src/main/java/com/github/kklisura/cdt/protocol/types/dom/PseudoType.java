@@ -4,7 +4,7 @@ package com.github.kklisura.cdt.protocol.types.dom;
  * #%L
  * cdt-java-client
  * %%
- * Copyright (C) 2018 - 2021 Kenan Klisura
+ * Copyright (C) 2018 - 2024 Kenan Klisura
  * %%
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -36,16 +36,30 @@ public enum PseudoType {
   MARKER,
   @JsonProperty("backdrop")
   BACKDROP,
+  @JsonProperty("column")
+  COLUMN,
   @JsonProperty("selection")
   SELECTION,
+  @JsonProperty("search-text")
+  SEARCH_TEXT,
   @JsonProperty("target-text")
   TARGET_TEXT,
   @JsonProperty("spelling-error")
   SPELLING_ERROR,
   @JsonProperty("grammar-error")
   GRAMMAR_ERROR,
+  @JsonProperty("highlight")
+  HIGHLIGHT,
   @JsonProperty("first-line-inherited")
   FIRST_LINE_INHERITED,
+  @JsonProperty("scroll-marker")
+  SCROLL_MARKER,
+  @JsonProperty("scroll-marker-group")
+  SCROLL_MARKER_GROUP,
+  @JsonProperty("scroll-next-button")
+  SCROLL_NEXT_BUTTON,
+  @JsonProperty("scroll-prev-button")
+  SCROLL_PREV_BUTTON,
   @JsonProperty("scrollbar")
   SCROLLBAR,
   @JsonProperty("scrollbar-thumb")
@@ -61,5 +75,27 @@ public enum PseudoType {
   @JsonProperty("resizer")
   RESIZER,
   @JsonProperty("input-list-button")
-  INPUT_LIST_BUTTON
+  INPUT_LIST_BUTTON,
+  @JsonProperty("view-transition")
+  VIEW_TRANSITION,
+  @JsonProperty("view-transition-group")
+  VIEW_TRANSITION_GROUP,
+  @JsonProperty("view-transition-image-pair")
+  VIEW_TRANSITION_IMAGE_PAIR,
+  @JsonProperty("view-transition-old")
+  VIEW_TRANSITION_OLD,
+  @JsonProperty("view-transition-new")
+  VIEW_TRANSITION_NEW,
+  @JsonProperty("placeholder")
+  PLACEHOLDER,
+  @JsonProperty("file-selector-button")
+  FILE_SELECTOR_BUTTON,
+  @JsonProperty("details-content")
+  DETAILS_CONTENT,
+  @JsonProperty("select-fallback-button")
+  SELECT_FALLBACK_BUTTON,
+  @JsonProperty("select-fallback-button-text")
+  SELECT_FALLBACK_BUTTON_TEXT,
+  @JsonProperty("picker")
+  PICKER
 }

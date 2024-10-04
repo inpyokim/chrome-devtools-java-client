@@ -4,7 +4,7 @@ package com.github.kklisura.cdt.protocol.events.debugger;
  * #%L
  * cdt-java-client
  * %%
- * Copyright (C) 2018 - 2021 Kenan Klisura
+ * Copyright (C) 2018 - 2024 Kenan Klisura
  * %%
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -25,6 +25,7 @@ import com.github.kklisura.cdt.protocol.support.annotations.Optional;
 import com.github.kklisura.cdt.protocol.types.debugger.DebugSymbols;
 import com.github.kklisura.cdt.protocol.types.debugger.ScriptLanguage;
 import com.github.kklisura.cdt.protocol.types.runtime.StackTrace;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -67,7 +68,7 @@ public class ScriptParsed {
 
   @Experimental @Optional private ScriptLanguage scriptLanguage;
 
-  @Experimental @Optional private DebugSymbols debugSymbols;
+  @Experimental @Optional private List<DebugSymbols> debugSymbols;
 
   @Experimental @Optional private String embedderName;
 
@@ -141,22 +142,28 @@ public class ScriptParsed {
     this.executionContextId = executionContextId;
   }
 
-  /** Content hash of the script. */
+  /** Content hash of the script, SHA-256. */
   public String getHash() {
     return hash;
   }
 
-  /** Content hash of the script. */
+  /** Content hash of the script, SHA-256. */
   public void setHash(String hash) {
     this.hash = hash;
   }
 
-  /** Embedder-specific auxiliary data. */
+  /**
+   * Embedder-specific auxiliary data likely matching {isDefault: boolean, type:
+   * 'default'|'isolated'|'worker', frameId: string}
+   */
   public Map<String, Object> getExecutionContextAuxData() {
     return executionContextAuxData;
   }
 
-  /** Embedder-specific auxiliary data. */
+  /**
+   * Embedder-specific auxiliary data likely matching {isDefault: boolean, type:
+   * 'default'|'isolated'|'worker', frameId: string}
+   */
   public void setExecutionContextAuxData(Map<String, Object> executionContextAuxData) {
     this.executionContextAuxData = executionContextAuxData;
   }
@@ -241,13 +248,13 @@ public class ScriptParsed {
     this.scriptLanguage = scriptLanguage;
   }
 
-  /** If the scriptLanguage is WebASsembly, the source of debug symbols for the module. */
-  public DebugSymbols getDebugSymbols() {
+  /** If the scriptLanguage is WebAssembly, the source of debug symbols for the module. */
+  public List<DebugSymbols> getDebugSymbols() {
     return debugSymbols;
   }
 
-  /** If the scriptLanguage is WebASsembly, the source of debug symbols for the module. */
-  public void setDebugSymbols(DebugSymbols debugSymbols) {
+  /** If the scriptLanguage is WebAssembly, the source of debug symbols for the module. */
+  public void setDebugSymbols(List<DebugSymbols> debugSymbols) {
     this.debugSymbols = debugSymbols;
   }
 

@@ -4,7 +4,7 @@ package com.github.kklisura.cdt.services.impl;
  * #%L
  * cdt-java-client
  * %%
- * Copyright (C) 2018 - 2021 Kenan Klisura
+ * Copyright (C) 2018 - 2024 Kenan Klisura
  * %%
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -124,7 +124,7 @@ public class ChromeServiceImpl implements ChromeService {
 
   @Override
   public List<ChromeTab> getTabs() throws ChromeServiceException {
-    return Arrays.asList(request(ChromeTab[].class, "http://%s:%d/%s", host, port, LIST_TABS));
+    return Arrays.asList(request(ChromeTab[].class, "https://%s:%d/%s", host, port, LIST_TABS));
   }
 
   @Override
@@ -134,17 +134,17 @@ public class ChromeServiceImpl implements ChromeService {
 
   @Override
   public ChromeTab createTab(String tab) throws ChromeServiceException {
-    return request(ChromeTab.class, "http://%s:%d/%s?%s", host, port, CREATE_TAB, tab);
+    return request(ChromeTab.class, "https://%s:%d/%s?%s", host, port, CREATE_TAB, tab);
   }
 
   @Override
   public void activateTab(ChromeTab tab) throws ChromeServiceException {
-    request(Void.class, "http://%s:%d/%s/%s", host, port, ACTIVATE_TAB, tab.getId());
+    request(Void.class, "https://%s:%d/%s/%s", host, port, ACTIVATE_TAB, tab.getId());
   }
 
   @Override
   public void closeTab(ChromeTab tab) throws ChromeServiceException {
-    request(Void.class, "http://%s:%d/%s/%s", host, port, CLOSE_TAB, tab.getId());
+    request(Void.class, "https://%s:%d/%s/%s", host, port, CLOSE_TAB, tab.getId());
 
     // Remove dev tools from cache.
     clearChromeDevToolsServiceCache(tab);
@@ -152,7 +152,7 @@ public class ChromeServiceImpl implements ChromeService {
 
   @Override
   public ChromeVersion getVersion() throws ChromeServiceException {
-    return request(ChromeVersion.class, "http://%s:%d/%s", host, port, VERSION);
+    return request(ChromeVersion.class, "https://%s:%d/%s", host, port, VERSION);
   }
 
   @Override
