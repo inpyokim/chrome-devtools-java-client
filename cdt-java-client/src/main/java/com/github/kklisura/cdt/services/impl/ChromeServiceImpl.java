@@ -21,6 +21,7 @@ package com.github.kklisura.cdt.services.impl;
  */
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.github.kklisura.cdt.launch.ChromeLauncher;
 import com.github.kklisura.cdt.services.ChromeDevToolsService;
 import com.github.kklisura.cdt.services.ChromeService;
 import com.github.kklisura.cdt.services.WebSocketService;
@@ -32,6 +33,9 @@ import com.github.kklisura.cdt.services.invocation.CommandInvocationHandler;
 import com.github.kklisura.cdt.services.types.ChromeTab;
 import com.github.kklisura.cdt.services.types.ChromeVersion;
 import com.github.kklisura.cdt.services.utils.ProxyUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -52,6 +56,8 @@ import java.util.concurrent.ConcurrentHashMap;
  */
 public class ChromeServiceImpl implements ChromeService {
   public static final String ABOUT_BLANK_PAGE = "about:blank";
+
+  private static final Logger LOGGER = LoggerFactory.getLogger(ChromeServiceImpl.class);
 
   private static final ObjectMapper OBJECT_MAPPER = new ObjectMapper();
 
@@ -267,7 +273,10 @@ public class ChromeServiceImpl implements ChromeService {
     InputStream inputStream = null;
 
     try {
-      URL uri = new URL(String.format(path, params));
+      String urlStr = String.format(path, params);
+      LOGGER.info("ChromeService request() {} - {}", responseType.getSimpleName(), urlStr);
+      
+      URL uri = new URL(urlStr);
       connection = (HttpURLConnection) uri.openConnection();
       
       //todo for the latest browser by ctnd
