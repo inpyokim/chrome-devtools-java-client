@@ -124,7 +124,7 @@ public class ChromeServiceImpl implements ChromeService {
 
   @Override
   public List<ChromeTab> getTabs() throws ChromeServiceException {
-    return Arrays.asList(request(ChromeTab[].class, "https://%s:%d/%s", host, port, LIST_TABS));
+    return Arrays.asList(request(ChromeTab[].class, "http://%s:%d/%s", host, port, LIST_TABS));
   }
 
   @Override
@@ -134,17 +134,17 @@ public class ChromeServiceImpl implements ChromeService {
 
   @Override
   public ChromeTab createTab(String tab) throws ChromeServiceException {
-    return request(ChromeTab.class, "https://%s:%d/%s?%s", host, port, CREATE_TAB, tab);
+    return request(ChromeTab.class, "http://%s:%d/%s?%s", host, port, CREATE_TAB, tab);
   }
 
   @Override
   public void activateTab(ChromeTab tab) throws ChromeServiceException {
-    request(Void.class, "https://%s:%d/%s/%s", host, port, ACTIVATE_TAB, tab.getId());
+    request(Void.class, "http://%s:%d/%s/%s", host, port, ACTIVATE_TAB, tab.getId());
   }
 
   @Override
   public void closeTab(ChromeTab tab) throws ChromeServiceException {
-    request(Void.class, "https://%s:%d/%s/%s", host, port, CLOSE_TAB, tab.getId());
+    request(Void.class, "http://%s:%d/%s/%s", host, port, CLOSE_TAB, tab.getId());
 
     // Remove dev tools from cache.
     clearChromeDevToolsServiceCache(tab);
@@ -152,7 +152,7 @@ public class ChromeServiceImpl implements ChromeService {
 
   @Override
   public ChromeVersion getVersion() throws ChromeServiceException {
-    return request(ChromeVersion.class, "https://%s:%d/%s", host, port, VERSION);
+    return request(ChromeVersion.class, "http://%s:%d/%s", host, port, VERSION);
   }
 
   @Override
@@ -269,7 +269,9 @@ public class ChromeServiceImpl implements ChromeService {
     try {
       URL uri = new URL(String.format(path, params));
       connection = (HttpURLConnection) uri.openConnection();
-
+      connection.setDoOutput(true);
+      connection.setRequestMethod("PUT");
+      
       int responseCode = connection.getResponseCode();
       if (HttpURLConnection.HTTP_OK == responseCode) {
         if (Void.class.equals(responseType)) {

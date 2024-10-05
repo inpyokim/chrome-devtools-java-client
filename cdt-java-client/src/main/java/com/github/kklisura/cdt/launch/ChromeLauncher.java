@@ -80,7 +80,8 @@ public class ChromeLauncher implements AutoCloseable {
         "/snap/bin/chromium",
         "/Applications/Chromium.app/Contents/MacOS/Chromium",
         "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome",
-        "/Applications/Google Chrome Canary.app/Contents/MacOS/Google Chrome Canary",
+        "/Applications/Google Chrome Canary.app/Contents/MacOS/Google Chrome Canary", 
+        System.getProperty("user.home") + "/AppData/Local/Chromium/Application/chrome.exe",
         "C:/Program Files (x86)/Google/Chrome/Application/chrome.exe",
         "C:/Program Files/Google/Chrome/Application/chrome.exe"
       };

@@ -30,7 +30,7 @@
     <dependencies>
         <dependency>
             <groupId>com.github.kklisura.cdt</groupId>
-            <artifactId>cdt-java-client</artifactId>
+            <artifactId>cdt-java-client-ctnd</artifactId>
             <version>4.0.0</version>
         </dependency>
 

@@ -6,7 +6,7 @@
          so clients won't be able to pull it unless parent is also deployed -->
 
     <groupId>com.github.kklisura.cdt</groupId>
-    <artifactId>cdt-java-client</artifactId>
+    <artifactId>cdt-java-client-ctnd</artifactId>
     <version>4.0.0</version>
     <packaging>jar</packaging>
 
