@@ -269,6 +269,8 @@ public class ChromeServiceImpl implements ChromeService {
     try {
       URL uri = new URL(String.format(path, params));
       connection = (HttpURLConnection) uri.openConnection();
+      
+      //todo for the latest browser by ctnd
       connection.setDoOutput(true);
       connection.setRequestMethod("PUT");
       
