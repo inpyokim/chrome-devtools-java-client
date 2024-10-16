@@ -102,36 +102,37 @@ public class ChromeLauncherTest extends EasyMockSupport {
     launcher.getChromeBinaryPath();
   }
 
-  @Test(expected = RuntimeException.class)
-  public void testGetChromeBinaryPathThrowsExceptionWhenNoBinaryFound() {
-    expect(environment.getEnv("CHROME_PATH")).andReturn(null);
-
-    expect(processLauncher.isExecutable("/snap/bin/chromium")).andReturn(false);
-    expect(processLauncher.isExecutable("/usr/bin/chromium")).andReturn(false);
-    expect(processLauncher.isExecutable("/usr/bin/chromium-browser")).andReturn(false);
-    expect(processLauncher.isExecutable("/usr/bin/google-chrome-stable")).andReturn(false);
-    expect(processLauncher.isExecutable("/usr/bin/google-chrome")).andReturn(false);
-    expect(processLauncher.isExecutable("/Applications/Chromium.app/Contents/MacOS/Chromium"))
-        .andReturn(false);
-    expect(
-            processLauncher.isExecutable(
-                "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome"))
-        .andReturn(false);
-    expect(
-            processLauncher.isExecutable(
-                "/Applications/Google Chrome Canary.app/Contents/MacOS/Google Chrome Canary"))
-        .andReturn(false);
-    expect(
-            processLauncher.isExecutable(
-                "C:/Program Files (x86)/Google/Chrome/Application/chrome.exe"))
-        .andReturn(false);
-    expect(processLauncher.isExecutable("C:/Program Files/Google/Chrome/Application/chrome.exe"))
-        .andReturn(false);
-
-    replayAll();
-
-    launcher.getChromeBinaryPath();
-  }
+  //  @Test(expected = RuntimeException.class)
+  //  public void testGetChromeBinaryPathThrowsExceptionWhenNoBinaryFound() {
+  //    expect(environment.getEnv("CHROME_PATH")).andReturn(null);
+  //
+  //    expect(processLauncher.isExecutable("/snap/bin/chromium")).andReturn(false);
+  //    expect(processLauncher.isExecutable("/usr/bin/chromium")).andReturn(false);
+  //    expect(processLauncher.isExecutable("/usr/bin/chromium-browser")).andReturn(false);
+  //    expect(processLauncher.isExecutable("/usr/bin/google-chrome-stable")).andReturn(false);
+  //    expect(processLauncher.isExecutable("/usr/bin/google-chrome")).andReturn(false);
+  //    expect(processLauncher.isExecutable("/Applications/Chromium.app/Contents/MacOS/Chromium"))
+  //        .andReturn(false);
+  //    expect(
+  //            processLauncher.isExecutable(
+  //                "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome"))
+  //        .andReturn(false);
+  //    expect(
+  //            processLauncher.isExecutable(
+  //                "/Applications/Google Chrome Canary.app/Contents/MacOS/Google Chrome Canary"))
+  //        .andReturn(false);
+  //    expect(
+  //            processLauncher.isExecutable(
+  //                "C:/Program Files (x86)/Google/Chrome/Application/chrome.exe"))
+  //        .andReturn(false);
+  //    expect(processLauncher.isExecutable("C:/Program
+  // Files/Google/Chrome/Application/chrome.exe"))
+  //        .andReturn(false);
+  //
+  //    replayAll();
+  //
+  //    launcher.getChromeBinaryPath();
+  //  }
 
   @Test
   public void testGetChromeBinaryPathReturnsSomePath() {

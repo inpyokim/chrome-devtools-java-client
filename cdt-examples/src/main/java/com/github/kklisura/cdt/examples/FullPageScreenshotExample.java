@@ -23,7 +23,6 @@ package com.github.kklisura.cdt.examples;
 import com.github.kklisura.cdt.launch.ChromeLauncher;
 import com.github.kklisura.cdt.protocol.commands.Emulation;
 import com.github.kklisura.cdt.protocol.commands.Page;
-import com.github.kklisura.cdt.protocol.types.page.CaptureScreenshotFormat;
 import com.github.kklisura.cdt.protocol.types.page.LayoutMetrics;
 import com.github.kklisura.cdt.protocol.types.page.Viewport;
 import com.github.kklisura.cdt.services.ChromeDevToolsService;
@@ -65,9 +64,7 @@ public class FullPageScreenshotExample {
     viewport.setWidth(width);
     viewport.setHeight(height);
 
-    dump(
-        outputFilename,
-        page.captureScreenshot());
+    dump(outputFilename, page.captureScreenshot());
   }
 
   public static void main(String[] args) {

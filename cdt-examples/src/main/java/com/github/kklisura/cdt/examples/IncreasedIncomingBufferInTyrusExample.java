@@ -93,11 +93,7 @@ public class IncreasedIncomingBufferInTyrusExample {
           Boolean preferCSSPageSize = false;
           PrintToPDFTransferMode mode = PrintToPDFTransferMode.RETURN_AS_BASE_64;
 
-          dump(
-              outputFilename,
-              devToolsService
-                  .getPage()
-                  .printToPDF());
+          dump(outputFilename, devToolsService.getPage().printToPDF());
 
           System.out.println("Done!");
           devToolsService.close();

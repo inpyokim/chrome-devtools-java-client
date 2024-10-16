@@ -21,7 +21,6 @@ package com.github.kklisura.cdt.services.impl;
  */
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.github.kklisura.cdt.launch.ChromeLauncher;
 import com.github.kklisura.cdt.services.ChromeDevToolsService;
 import com.github.kklisura.cdt.services.ChromeService;
 import com.github.kklisura.cdt.services.WebSocketService;
@@ -33,9 +32,6 @@ import com.github.kklisura.cdt.services.invocation.CommandInvocationHandler;
 import com.github.kklisura.cdt.services.types.ChromeTab;
 import com.github.kklisura.cdt.services.types.ChromeVersion;
 import com.github.kklisura.cdt.services.utils.ProxyUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -48,6 +44,8 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Chrome service implementation.
@@ -275,14 +273,14 @@ public class ChromeServiceImpl implements ChromeService {
     try {
       String urlStr = String.format(path, params);
       LOGGER.info("ChromeService request() {} - {}", responseType.getSimpleName(), urlStr);
-      
+
       URL uri = new URL(urlStr);
       connection = (HttpURLConnection) uri.openConnection();
-      
-      //todo for the latest browser by ctnd
+
+      // todo for the latest browser by ctnd
       connection.setDoOutput(true);
       connection.setRequestMethod("PUT");
-      
+
       int responseCode = connection.getResponseCode();
       if (HttpURLConnection.HTTP_OK == responseCode) {
         if (Void.class.equals(responseType)) {
